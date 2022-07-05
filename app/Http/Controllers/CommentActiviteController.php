@@ -36,7 +36,10 @@ class CommentActiviteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'comment' => 'required',
+        ]);
+        return Commentactivite::create($request->all());
     }
 
     /**

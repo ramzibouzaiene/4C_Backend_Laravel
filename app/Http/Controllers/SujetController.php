@@ -14,7 +14,7 @@ class SujetController extends Controller
      */
     public function index()
     {
-        $sujets = Sujet::all();
+        $sujets = Sujet::with('documents')->get();
         return $sujets;
     }
 

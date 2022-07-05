@@ -12,14 +12,10 @@ class PartenaireController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        $partenaires_indus = Partenaire::where('type' , 'Industriel')->get();
-        $partenaires_univ = Partenaire::where('type' , 'Universitaires')->get();
-        $partenaires_asso = Partenaire::where('type' , 'Associatives')->get();
-
-        return ['partenaires_indus'=> $partenaires_indus, 'partenaires_univ'=> $partenaires_univ, 
-        'partenaires_asso'=>$partenaires_asso];
+        $partners = Partenaire::where('partnertype_id' , $id)->get();
+         return $partners;
     }
 
     /**
@@ -51,7 +47,7 @@ class PartenaireController extends Controller
      */
     public function show($id)
     {
-        //
+        return Partenaire::find($id);
     }
 
     /**

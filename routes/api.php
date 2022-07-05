@@ -36,8 +36,22 @@ use App\Http\Controllers\TopicController;
 use App\Http\Controllers\TypeactiviteController;
 use App\Http\Controllers\TypeoffreController;
 use App\Http\Controllers\OffreController;
+use App\Http\Controllers\EquipeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PartnerTypeController;
+use App\Http\Controllers\FooterController;
+use App\Http\Controllers\LesServicesController;
+use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\NewsletterController;
+use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 
 
 /*
@@ -58,15 +72,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Protected Routes
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/sujets', [SujetController::class, 'index']);
     Route::get('/tentatives', [TentativeController::class, 'index']);
     Route::get('/topics', [TopicController::class, 'index']);
-    Route::get('/reclamations', [ReclamationController::class, 'index']);
+    
     Route::get('/reponses', [ReponseController::class, 'index']);
     Route::get('/roles', [RoleController::class, 'index']);
     Route::get('/role_forms', [RoleformController::class, 'index']);
     Route::get('/participers', [ParticiperController::class, 'index']);
-    Route::get('/messages', [MessageController::class, 'index']);
+    Route::post('/messages', [MessageController::class, 'message']);
     Route::get('/modele_cv', [ModelecvController::class, 'index']);
     Route::get('/enseignants', [EnseignantController::class, 'index']);
     Route::get('/etudiants', [EtudiantController::class, 'index']);
@@ -75,28 +88,63 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/generateur_forms', [GenerateurformController::class, 'index']);
     Route::get('/groupes', [GroupeController::class, 'index']);
     Route::get('/inputes', [InputController::class, 'index']);
-    Route::get('/comment_activites', [CommentActiviteController::class, 'index']);
     Route::get('/comments', [CommentController::class, 'index']);
     Route::get('/users', [UserController::class, 'index']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/resetPassword', [ChangePasswordController::class, 'process']);
-    Route::post('profile', [AuthController::class, 'profil']);
+
+ 
 });
+  
 
 // Public Routes
+
+
+Route::get('/sujets', [SujetController::class, 'index']);
+Route::get('/partners', [PartnerTypeController::class, 'index']);
+Route::post('/actualite', [ActualiteController::class, 'store']);
 Route::get('/type_activites', [TypeactiviteController::class, 'index']);
+Route::get('/type_services', [TypeServicesController::class, 'index']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::get('/footer', [FooterController::class, 'index']);
 Route::get('/activites/{id}', [ActiviteController::class, 'index']);
-Route::get('/actualites', [ActualiteController::class, 'index']);
+Route::get('/service', [ServicesController::class, 'index']);
+Route::get('/homeactactivites', [ActiviteController::class, 'activites']);
+Route::get('/activite/{id}', [ActiviteController::class, 'details']);
+Route::get('/comment_activites', [CommentActiviteController::class, 'index']);
+Route::get('/actualites/{id}', [ActualiteController::class, 'index']);
+Route::get('/actualite/{id}', [ActualiteController::class, 'details']);
 Route::get('/albums', [AlbumController::class, 'index']);
+Route::get('/photos/{id}', [AlbumController::class, 'details']);
 Route::get('/centres', [Centre4cController::class, 'index']);
-Route::get('/contacts', [ContactController::class, 'index']);
-Route::get('/documents', [DocumentController::class, 'index']);
+Route::post('/contacts', [ContactController::class, 'contact']);
+Route::get('/documents/{id}', [DocumentController::class, 'index']);
 Route::get('/lien_utiles', [LienutileController::class, 'index']);
 Route::get('/partenaires', [PartenaireController::class, 'index']);
 Route::get('/recherches', [RecherchController::class, 'index']);
 Route::get('/slides', [SlideController::class, 'index']);
-Route::get('/offres', [OffreController::class, 'index']);
+Route::get('/services', [LesServicesController::class, 'index']);
+Route::get('/offres/{id}', [OffreController::class, 'index']);
+Route::get('/offre/{id}', [OffreController::class, 'details']);
+Route::get('/certif', [CertificationController::class, 'index']);
 Route::get('/type_offres', [TypeoffreController::class, 'index']);
-Route::post('/sendPasswordResetLink', [ResetPasswordController::class, 'sendEmail']);
+Route::get('/equipe',[EquipeController::class, 'index']);
+Route::post('/newsletter',[NewsletterController::class, 'newsletter']);
+
+Route::put('/updateprofile/{id}', [ProfileController::class, 'updateProfile']);
+   Route::post('/resume', [ResumeController::class, 'experience']);
+    Route::post('/resumeducation', [ResumeController::class, 'education']);
+    Route::post('/skills', [ResumeController::class, 'skills']);
+    Route::post('/summary', [ResumeController::class, 'summary']);
+    Route::get('/getexp', [ResumeController::class, 'getExperience']);
+    Route::get('/geteduc', [ResumeController::class, 'getEducation']);
+    Route::get('/getskills', [ResumeController::class, 'getSkills']);
+    Route::get('/getsum', [ResumeController::class, 'getSummary']);
+    Route::post('/comment_activites', [CommentActiviteController::class, 'store']);
+    Route::put('/changepassword', [ProfileController::class, 'change_password']);
+    Route::post('/updateavatar/{id}', [ProfileController::class, 'updateAvatar']);
+        Route::post('/logout', [AuthController::class, 'logout']);   
+    Route::post('/reclamations', [ReclamationController::class, 'reclamation']);
+    Route::post('/reset-password', [PasswordResetLinkController::class, 'ResetPasswordStore']);
+    
+    
+    Route::get('/profile', [ProfileController::class, 'index']);

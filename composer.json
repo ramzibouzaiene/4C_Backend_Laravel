@@ -9,9 +9,13 @@
         "fruitcake/laravel-cors": "^2.2",
         "graham-campbell/markdown": "^13.1",
         "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/fortify": "^1.13",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
+        "munafio/chatify": "^1.4",
+        "pusher/pusher-php-server": "^7.0",
+        "spatie/laravel-newsletter": "^4.11",
         "tcg/voyager": "^1.5",
         "tymon/jwt-auth": "^1.0"
     },

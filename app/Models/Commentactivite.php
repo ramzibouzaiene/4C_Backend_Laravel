@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Commentactivite extends Model
 {
-    
+      protected $fillable = [
+        'comment',
+    ];
+
 }

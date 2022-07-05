@@ -19,14 +19,11 @@ class OffreController extends Controller
         return $offres;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function details($id)
     {
-        //
+        $data = Offre::find($id);
+
+        return $data;
     }
 
     /**
@@ -48,7 +45,11 @@ class OffreController extends Controller
      */
     public function show($id)
     {
-        return Offre::find($id);
+        $offres = Offre::first($id);
+        if (is_null($offres)) {
+            return response()->json(['message' => 'Offre not found'], 404);
+        }
+        return response()->json($offres::first($id), 200);
     }
 
     /**

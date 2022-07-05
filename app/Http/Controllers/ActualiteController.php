@@ -19,14 +19,11 @@ class ActualiteController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function details($id)
     {
-        //
+        $data = Actualite::find($id);
+
+        return $data;
     }
 
     /**
@@ -37,7 +34,7 @@ class ActualiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**
@@ -48,7 +45,11 @@ class ActualiteController extends Controller
      */
     public function show($id)
     {
-        return Actualite::find($id);
+        $actualites = Actualite::find($id);
+        if (is_null($actualites)) {
+            return response()->json(['message' => 'Actualite not found'], 404);
+        }
+        return response()->json($actualites::find($id), 200);
     }
 
     /**

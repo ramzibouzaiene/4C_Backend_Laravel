@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Traits\ApiResponser;
+use App\Models\Role;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules;
 
 class AuthController extends Controller
 {
@@ -14,27 +15,47 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        /*$attr = $request->validate([
-            'name' => ['required|string'],
-            'email' => ['required|string|email|unique:users,email'],
-            'password' => ['required|string|min:6|confirmed'],
-        ]);*/
-     //   return $request;
-
+        $attr = $request->validate([
+            'name' => 'required|min:3|max:50',
+            'email' => 'email',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6'
+        ]);
+        
+        
+        
         $user_data = [
-            
+            'role_id' => intval($request['role_id']),
             'name' => $request['name'],
             'password' => bcrypt($request['password']),
             'email' => $request['email'],
             'lastname' => $request['lastname'],
             'cin' => $request['cin'],
         ];
-      //  return $user_data;
+      //  return $user_data; 
         $user = User::create($user_data);
 
         return [
             'token' => $user->createToken('API Token')->plainTextToken
-        ];
+        ]; 
+
+
+        /*
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+        $user = User::create([
+            'cin' => $request->cin,
+            'name' => $request->name,
+            'lastname' => $request->lastname,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+        return [
+            'token' => $user->createToken('API Token')->plainTextToken
+        ]; */
     }
 
     public function login(Request $request)

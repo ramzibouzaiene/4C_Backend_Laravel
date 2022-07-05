@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Actualite extends Model
 {
-    
+    protected $fillable = [
+        'titre',
+        'article',
+    ];
 }

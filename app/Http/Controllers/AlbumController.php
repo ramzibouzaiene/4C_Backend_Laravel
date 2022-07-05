@@ -18,6 +18,13 @@ class AlbumController extends Controller
         return $albums;
     }
 
+    public function details($id)
+    {
+        $data = Album::find($id);
+
+        return $data;
+    }
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -47,7 +54,9 @@ class AlbumController extends Controller
      */
     public function show($id)
     {
-        return Album::find($id);
+        $data = Album::find($id);
+
+        return $data;
     }
 
     /**

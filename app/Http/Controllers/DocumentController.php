@@ -12,9 +12,9 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-         $documents = Documents::all();
+         $documents = Documents::where('sujet_id' , $id)->get();
          return $documents;
     }
 

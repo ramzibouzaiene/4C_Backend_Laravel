@@ -7,14 +7,23 @@ use Illuminate\Http\Request;
 
 class ActiviteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    public function activites() {
+
+        $act = Activite::all();
+        return $act;
+    }
+
     public function index($id)
     {
         $data = Activite::where('typeactivite_id' , $id)->get();
+
+        return $data;
+    }
+
+       public function details($id)
+    {
+        $data = Activite::find($id);
 
         return $data;
     }
@@ -48,7 +57,7 @@ class ActiviteController extends Controller
      */
     public function show($id)
     {
-        return Activite::find($id);
+        return Activite::first($id);
     }
 
     /**

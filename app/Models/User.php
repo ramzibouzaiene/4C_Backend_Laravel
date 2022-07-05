@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Auth\CanResetPassword;
+use App\Models\Role;
 
 
 class User extends \TCG\Voyager\Models\User 
@@ -20,8 +21,11 @@ class User extends \TCG\Voyager\Models\User
      *
      * @var array<int, string>
      */
+
     protected $fillable = [
+        'id',
         'name',
+        'role_id',
         'email',
         'password',
         'lastname',
@@ -29,8 +33,14 @@ class User extends \TCG\Voyager\Models\User
         'tel',
         'adresse',
         'date_nes',
-        'etablissement',
-        'linkedin', 
+        'linkedin',
+        'facebook', 
+        'instagram',
+        'github',
+        'grade',
+        'specialite',
+        'statut',
+        'avatar',
     ];
 
     /**
@@ -52,4 +62,12 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 
+    public function getRole(){
+        return $this->belongsTo('App\Role' , 'role_id' ,'id');
+    }
+
+    public function userable()
+    {
+        return $this->morphTo();
+    }
 }
